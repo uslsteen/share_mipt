@@ -26,6 +26,7 @@ void destruct(EqSolver* solver) {
 void input(EqSolver* solver) {
 
     assert(solver->coeffs);
+    double tmp = 0;
 
     for (uint32_t i = 0; i < COEFFS_NUM; ++i) {
 
@@ -38,7 +39,7 @@ void input(EqSolver* solver) {
             while (getchar() != '\n');
         }
 
-        assert(isfinite(coeffs_name[i]));
+        assert(isfinite(solver->coeffs[i]));
         printf("Succesful input\n");
     }
 
@@ -106,7 +107,7 @@ ROOTS_NUM solve_linear(double b, double c, double* root) {
 void analyze(EqSolver* solver) {
 
     assert(solver);
-    
+
     double x1 = solver->roots[0], x2 = solver->roots[1];
 
     switch (solver->type)
