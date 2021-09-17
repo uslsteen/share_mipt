@@ -3,7 +3,7 @@
 
 void run_test() {
 
-    printf("Unit test started\n");
+    printf("Unit tests started\n\n");
 
     double fst_coeffs[COEFFS_NUM] =  {1.0, 3.0, 2.0};
     double x1 = -1.0, x2 = -2.0;
@@ -20,6 +20,8 @@ void run_test() {
     double fth_coeffs[COEFFS_NUM] = {0, 0, 1.0};
     x1 = NAN, x2 = NAN;
     unit_test(&fth_coeffs[0], x1, x2, "None roots unit test");
+
+    printf("End of unit tests\n\n");
 }
 
 bool root_check(double expct_root, double cur_root) {
@@ -55,7 +57,7 @@ void unit_test(double* coeffs, double x1, double x2, const char* info) {
     solver.coeffs = coeffs;
 
     if (check_solution(&solver, x1, x2))
-        printf("%s passed\n\n", info);
+        printf("%s passed\n", info);
     else
-        printf("%s failed\n\n", info);
+        printf("%s failed\n", info);
 }

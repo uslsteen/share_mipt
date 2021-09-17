@@ -2,7 +2,7 @@
 
 int main(int argc, char** argv) {
 
-    printf("Equation solver programm\n");
+    printf("Equation solver program\n");
     printf("VERSION 1.0\n");
     printf("All rigths is resever\n\n");
 
