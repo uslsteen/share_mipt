@@ -1,12 +1,19 @@
-#include "eq_solver.hpp"
+#include "test.hpp"
 
 int main(int argc, char** argv) {
 
-    print_greeting();
+    printf("Equation solver programm\n");
+    printf("VERSION 1.0\n");
+    printf("All rigths is resever\n\n");
+
     EqSolver solver{};
+
+    run_test();
 
     init(&solver);
     solve(&solver);
+    analyze(&solver);
+    destruct(&solver);
 
     return 0;
 }

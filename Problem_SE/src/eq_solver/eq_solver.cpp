@@ -4,8 +4,6 @@ void init(EqSolver* solver) {
 
     assert(solver);
 
-    uint32_t coeffs_num = 0;
-
     allocate(solver);
     input(solver);
 }
@@ -17,8 +15,12 @@ void allocate(EqSolver* solver) {
     solver->coeffs = (double*)calloc(COEFFS_NUM, sizeof(double));
     assert(solver->coeffs);
 
-    for (uint32_t i; i < COEFFS_NUM; ++i)
+    for (uint32_t i = 0; i < COEFFS_NUM; ++i)
         solver->coeffs[i] = NAN;
+}
+
+void destruct(EqSolver* solver) {
+    free(solver->coeffs);
 }
 
 void input(EqSolver* solver) {
@@ -46,72 +48,74 @@ void input(EqSolver* solver) {
 void solve(EqSolver* solver) {
 
     assert(solver->coeffs);
-    double roots[2] = {0, 0};
-    double a = solver->coeffs[0], b = solver->coeffs[1], c = solver->coeffs[2];
-
-    if (is_zero(a))
-        solver->type = solve_linear(b, c, &roots[0]);
     
-    else if (is_zero(c))
+    double a = solver->coeffs[0], b = solver->coeffs[1], c = solver->coeffs[2];
+    double *x1 = &solver->roots[0], *x2 = &solver->roots[1]; 
+
+    if (is_equal(a))
+        solver->type = solve_linear(b, c, x1);
+
+    else if (is_equal(c))
     {
-        if (is_zero(b))
-            solver->type = SQUARE;
+        if (is_equal(b))
+            solver->type = TWO_ROOTS;
         else {
-            solve_linear(solver->coeffs[0], solver->coeffs[1], &roots[1]);
-            solver->type = SQUARE;
+            solve_linear(a, b, x2);
+            solver->type = TWO_ROOTS;
         }
     }
+    else
     {
         double discr = b * b - 4 * a * c;
 
-        if (is_zero(discr)) {
-            roots[0] = -b / (2*a);
-            roots[1] = roots[0];
+        if (is_equal(discr)) {
+            *x1 = -b / (2*a);
+            *x2 = *x1;
         }
         else if (discr < 0)
             solver->type = NONE;
+        
         else if (discr > 0) {
             double sqrt_d = sqrt(discr);
 
-            roots[0] = (-b + sqrt_d) / (2 * a);
-            roots[1] = (-b - sqrt_d) / (2 * a);
+            *x1 = (-b + sqrt_d) / (2 * a);
+            *x2 = (-b - sqrt_d) / (2 * a);
 
-            solver->type = SQUARE;
+            solver->type = TWO_ROOTS;
         }
     }
-
-    solver->roots = roots;
-    analyze(solver);
 }
 
-EQ_TYPE solve_linear(double b, double c, double* root) {
+ROOTS_NUM solve_linear(double b, double c, double* root) {
 
     assert(root);
     
-    if (is_zero(b))
-        return is_zero(c) ? INF_ROOTS : NONE;
+    if (is_equal(b))
+        return is_equal(c) ? INF_ROOTS : NONE;
 
     else {
-        if (is_zero(c))
-            return LINEAR;
+        if (is_equal(c))
+            return ONE_ROOT;
         else {
             *root = - c / b;
-            return LINEAR;
+            return ONE_ROOT;
         }
     }
 }
 
 void analyze(EqSolver* solver) {
 
+    assert(solver);
+    
     double x1 = solver->roots[0], x2 = solver->roots[1];
 
     switch (solver->type)
     {
     case NONE: printf("The equation has no roots\n");
 		break; 
-    case LINEAR: printf("The equation has one root: x = %.4lf\n", x1);
+    case ONE_ROOT: printf("The equation has one root: x = %.4lf\n", x1);
 		break;
-    case SQUARE: printf("The equation has two roots: x1 = %.4lf, x2 = %.4lf\n", x1, x2);
+    case TWO_ROOTS: printf("The equation has two roots: x1 = %.4lf, x2 = %.4lf\n", x1, x2);
 		break;
     case INF_ROOTS: printf("The equation has infinity number of roots\n");
 		break;

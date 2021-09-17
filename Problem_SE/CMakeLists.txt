@@ -11,18 +11,17 @@ find_package(Doxygen)
 
 if(DOXYGEN_FOUND)
     set(DOXYGEN_INPUT ${CMAKE_SOURCE_DIR}/build/CMakeDoxyfile.in)
-    set(DOXYGEN_OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
-
+    set(DOXYGEN_OUTPUT ${CMAKE_SOURCE_DIR}/docs/Doxyfile)
 
     configure_file(${DOXYGEN_INPUT} ${DOXYGEN_OUTPUT})
 
-    add_custom_target(doc COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+    add_custom_target(doc COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_SOURCE_DIR}/docs/Doxyfile)
 
 else()
     message(STATUS "WARNING: Doxygen not found - Reference manual will not be created")
 endif(DOXYGEN_FOUND)
 
-set(SRC src/main.cpp src/eq_solver/eq_solver.cpp src/common/common.cpp)
+set(SRC src/main.cpp src/eq_solver/eq_solver.cpp  src/common/test.cpp)
 
 add_executable(Problem_SE ${SRC})
 
