@@ -21,7 +21,7 @@ else()
     message(STATUS "WARNING: Doxygen not found - Reference manual will not be created")
 endif(DOXYGEN_FOUND)
 
-set(SRC src/main.cpp src/eq_solver/eq_solver.cpp  src/common/test.cpp)
+set(SRC src/main.cc src/eq_solver/eq_solver.cc src/common/test.cc)
 
 add_executable(Problem_SE ${SRC})
 

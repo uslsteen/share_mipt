@@ -1,4 +1,4 @@
-#include "eq_solver.hpp"
+#include "eq_solver.hh"
 
 void init(EqSolver* solver) {
 
@@ -20,18 +20,20 @@ void allocate(EqSolver* solver) {
 }
 
 void destruct(EqSolver* solver) {
+    assert(solver);
+    assert(solver->coeffs);
+
     free(solver->coeffs);
 }
 
 void input(EqSolver* solver) {
 
     assert(solver->coeffs);
-    double tmp = 0;
 
     for (uint32_t i = 0; i < COEFFS_NUM; ++i) {
 
         printf("Input coeff '%c' of equation:\n", coeffs_name[i]);
-        uint8_t res = scanf("%lf", &solver->coeffs[i]);
+        uint32_t res = scanf("%lf", &solver->coeffs[i]);
 
         if (res != 1) {
             printf("Invalid input\nInput integer or floating point number\n");
@@ -48,6 +50,7 @@ void input(EqSolver* solver) {
 
 void solve(EqSolver* solver) {
 
+    assert(solver);
     assert(solver->coeffs);
     
     double a = solver->coeffs[0], b = solver->coeffs[1], c = solver->coeffs[2];
@@ -59,11 +62,11 @@ void solve(EqSolver* solver) {
     else if (is_equal(c))
     {
         if (is_equal(b))
-            solver->type = TWO_ROOTS;
-        else {
+            *x1 = 0, *x2 = 0;
+        else
             solve_linear(a, b, x2);
-            solver->type = TWO_ROOTS;
-        }
+
+        solver->type = TWO_ROOTS;
     }
     else
     {
@@ -72,6 +75,7 @@ void solve(EqSolver* solver) {
         if (is_equal(discr)) {
             *x1 = -b / (2*a);
             *x2 = *x1;
+            solver->type = TWO_ROOTS;
         }
         else if (discr < 0)
             solver->type = NONE;
@@ -107,25 +111,33 @@ ROOTS_NUM solve_linear(double b, double c, double* root) {
 void analyze(EqSolver* solver) {
 
     assert(solver);
+    assert(solver->roots);
 
     double x1 = solver->roots[0], x2 = solver->roots[1];
 
     switch (solver->type)
     {
-    case NONE: printf("The equation has no roots\n");
+    case NONE:      printf("The equation has no roots\n");
 		break; 
-    case ONE_ROOT: printf("The equation has one root: x = %.4lf\n", x1);
+    case ONE_ROOT:  printf("The equation has one " 
+                           "root: x = %.4lf\n", x1);
 		break;
-    case TWO_ROOTS: printf("The equation has two roots: x1 = %.4lf, x2 = %.4lf\n", x1, x2);
+    case TWO_ROOTS: printf("The equation has two "
+                    "roots: x1 = %.4lf, x2 = %.4lf\n", x1, x2);
 		break;
-    case INF_ROOTS: printf("The equation has infinity number of roots\n");
+    case INF_ROOTS: printf("The equation has infinity"
+                           " number of roots\n");
 		break;
-    default: printf("Error occured in\n  void analyze(EqSolver* solver)\nInvalid value of EQ_TYPE\n");
+    default:        printf("Error occured in\n  void analyze(EqSolver* solver)\n"
+                           "Invalid value of EQ_TYPE\n");
         break;
     }
 }
 
 void dump(EqSolver* solver) {
+    
+    assert(solver);
+    assert(solver->coeffs);
     
     double* tmp = solver->coeffs;
     printf("equation: %lf * x^2 + %lf * x + %lf\n", tmp[0], tmp[1], tmp[2]);
