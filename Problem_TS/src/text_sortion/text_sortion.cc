@@ -38,7 +38,6 @@ int my_str_arr_construct(TextHandler* txt_handler) {
     assert(txt_handler != nullptr);
     assert(txt_handler->text_buffer != nullptr);
 
-    // my_str * str_array = txt_handler->str_array;
     size_t str_arr_size = START_SIZE; 
     txt_handler->str_array = (my_str *) calloc(str_arr_size, sizeof(my_str));
     assert(txt_handler->str_array);

@@ -12,6 +12,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+
 struct my_str { /* renamed  my_str --> naive_str */ 
     char* begin;
     size_t size;
@@ -46,13 +47,6 @@ int my_str_arr_construct(TextHandler* txt_handler);
 inline bool is_need_allocate(size_t size, size_t capacity) {
     return (capacity - size) < DELTA;
 }
-
-/*
-struct ErrHandler {
-    char* err_msg;
-
-};
-*/
 
 #endif /* TEXT_SORTION */
 
