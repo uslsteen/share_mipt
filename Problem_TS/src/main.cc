@@ -14,4 +14,5 @@ int main(int argc, char** argv) {
 
     buf_load(&m_txt_hndler, argv[1]);
     my_str_arr_construct(&m_txt_hndler);
+    
 }

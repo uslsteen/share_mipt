@@ -7,9 +7,12 @@ project(Problem_TS VERSION 1.0)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(SRC src/main.cc src/text_sortion/text_sortion.cc src/text_sortion/text_sortion.cc)
+set(SRC src/main.cc 
+        src/text_sortion/text_sortion.cc 
+        src/text_sortion/text_sortion.cc 
+        src/common/m_qsort.cc)
 
 add_executable(Problem_TS ${SRC})
 
-target_include_directories(Problem_TS PUBLIC src/text_sortion)
+target_include_directories(Problem_TS PUBLIC src/text_sortion src/common)
 target_compile_options(Problem_TS INTERFACE "-Wall -Wextra")
