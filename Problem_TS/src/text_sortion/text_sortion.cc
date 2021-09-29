@@ -25,7 +25,7 @@ int buf_load(TextHandler* txt_handler, const char* pathname) {
         return ErrProcess("read returned negative value\n");
         close(fd);
     }
-    
+
     /*else if (res_of_read < need_to_read) {
         loop to reading whole file 
     }*/
@@ -68,9 +68,12 @@ int my_str_arr_construct(TextHandler* txt_handler) {
         prev_str_end = str_end;
         str_end = (char*)memchr(str_start, '\n', new_byte_size);
     
-        if (is_need_allocate(cur_str_size, str_arr_size))   
-            str_array_realloc(txt_handler->str_array, &str_arr_size); 
+        if (is_need_allocate(cur_str_size, str_arr_size, FLAG_MORE))   
+            str_array_realloc(txt_handler->str_array, &str_arr_size, FLAG_MORE); 
     }
+
+    if (is_need_allocate(cur_str_size, str_arr_size, FLAG_LESS))   
+            str_array_realloc(txt_handler->str_array, &cur_str_size, FLAG_LESS);
 
     txt_handler->str_arr_size = cur_str_size;
 }

@@ -53,28 +53,25 @@ void q_sort(my_str* arr, size_t low, size_t high, int (*comp)(void* lhs, void* r
     q_sort(arr, pos + 1, high, comp);
 }
 
-size_t partition(my_str* arr, size_t low, size_t high, int (*comp)(void* lhs, void* rhs))
-{
+size_t partition(my_str* arr, size_t low, size_t high, int (*comp)(void* lhs, void* rhs)) {
+
     size_t pivot = low, beg = low, end = high;
 
-    while (beg < end)
-    {
+    while (beg < end) {
         while (comp(arr + beg, arr + pivot) <= 0 && (beg <= high))
             ++beg;
-
         while (comp(arr + pivot, arr + end) <= 0 && (end >= low))
             ++end;
 
         if (beg < end)
             swap(arr + beg, arr + end);
     }
-    swap(arr + end, arr + pivot);
 
+    swap(arr + end, arr + pivot);
     return end;
 }
 
-void swap(my_str* lhs, my_str* rhs)
-{
+void swap(my_str* lhs, my_str* rhs) {
     assert(lhs);
     assert(rhs);
 
@@ -82,4 +79,3 @@ void swap(my_str* lhs, my_str* rhs)
     *lhs = *rhs;
     *rhs = temp;
 }
-
