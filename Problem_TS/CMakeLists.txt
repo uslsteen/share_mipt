@@ -8,11 +8,12 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(SRC src/main.cc 
-        src/text_sortion/text_sortion.cc 
-        src/text_sortion/text_sortion.cc 
-        src/common/m_qsort.cc)
+        src/text_sortion/text_sortion.cc
+        src/common/m_qsort.cc
+        src/common/err_proc.cc
+        src/common/my_str.cc)
 
-add_executable(Problem_TS ${SRC})
+add_executable(${PROJECT_NAME} ${SRC})
 
-target_include_directories(Problem_TS PUBLIC src/text_sortion src/common)
-target_compile_options(Problem_TS INTERFACE "-Wall -Wextra")
+target_include_directories(${PROJECT_NAME} PUBLIC src/text_sortion src/common)
+target_compile_options(${PROJECT_NAME} INTERFACE "-g -Wall -Wextra")
