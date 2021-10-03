@@ -1,6 +1,8 @@
 #include "m_qsort.hh"
 
-is_equal forward_compare(const void* lhs, const void* rhs) {
+
+int forward_compare(const void* lhs, const void* rhs) {
+    
     assert(lhs);
     assert(rhs);
 
@@ -18,7 +20,7 @@ is_equal forward_compare(const void* lhs, const void* rhs) {
             ++rhs_beg;
         
         /* if first valid symbols was found, compare it each other */
-        if (toupper(*lhs_beg) != toupper(*rhs_beg))
+        if (toupper(*lhs_beg) != toupper(*rhs_beg) || ((is_end_line(*lhs_beg) && is_end_line(*rhs_beg))))
             break;
         
         /* if symbols are not equal, go to next symbol after these */
@@ -28,7 +30,8 @@ is_equal forward_compare(const void* lhs, const void* rhs) {
     return ((toupper(*lhs_beg) - toupper(*rhs_beg)));
 }
 
-is_equal backward_compare(const void* lhs, const void* rhs) {
+int backward_compare(const void* lhs, const void* rhs) {
+
     assert(lhs);
     assert(rhs);
 
@@ -40,12 +43,13 @@ is_equal backward_compare(const void* lhs, const void* rhs) {
     }
 }
 
-void q_sort(my_str* arr, size_t low, size_t high, int (*comp)(void* lhs, void* rhs)) {
+void q_sort(my_str* arr, size_t low, size_t high, int (*comp)(const void* lhs, const void* rhs)) {
 
+    assert(arr);
     if (low >= high)
         return;
 
-    size_t pos = partition(arr, low, pos - 1, comp);
+    size_t pos = partition(arr, low, high, comp);
 
     if (pos > low)
         q_sort(arr, low, pos - 1, comp);
@@ -53,15 +57,16 @@ void q_sort(my_str* arr, size_t low, size_t high, int (*comp)(void* lhs, void* r
     q_sort(arr, pos + 1, high, comp);
 }
 
-size_t partition(my_str* arr, size_t low, size_t high, int (*comp)(void* lhs, void* rhs)) {
+size_t partition(my_str* arr, size_t low, size_t high, int (*comp)(const void* lhs, const void* rhs)) {
 
+    assert(arr);
     size_t pivot = low, beg = low, end = high;
 
     while (beg < end) {
         while (comp(arr + beg, arr + pivot) <= 0 && (beg <= high))
             ++beg;
-        while (comp(arr + pivot, arr + end) <= 0 && (end >= low))
-            ++end;
+        while (comp(arr + end, arr + pivot) > 0 && (end >= low))
+            --end;
 
         if (beg < end)
             swap(arr + beg, arr + end);
@@ -72,6 +77,7 @@ size_t partition(my_str* arr, size_t low, size_t high, int (*comp)(void* lhs, vo
 }
 
 void swap(my_str* lhs, my_str* rhs) {
+
     assert(lhs);
     assert(rhs);
 

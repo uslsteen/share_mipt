@@ -2,10 +2,19 @@
 #define M_QSORT
 
 #include "ctype.h"
-#include "text_sortion.hh"
+
+#include <iostream>
+
+#include <assert.h>
+#include <string.h>
+
+
+struct my_str { /* renamed  my_str --> naive_str */ 
+    char* begin;
+    size_t size;
+};
 
 typedef int (*comp)(const void* lhs, const void* rhs);
-typedef int is_equal;
 
 /**
  * @brief Function for comparision
@@ -18,7 +27,7 @@ typedef int is_equal;
  * @param rhs 
  * @return int 
  */
-is_equal forward_compare(const void* lhs, const void* rhs);
+int forward_compare(const void* lhs, const void* rhs);
 
 /**
  * @brief 
@@ -27,7 +36,7 @@ is_equal forward_compare(const void* lhs, const void* rhs);
  * @param rhs 
  * @return int 
  */
-is_equal backward_compare(const void* lhs, const void* rhs);
+int backward_compare(const void* lhs, const void* rhs);
 
 /**
  * @brief quick sort algorithm realization
@@ -41,7 +50,7 @@ is_equal backward_compare(const void* lhs, const void* rhs);
  * @param high 
  * @param comp 
  */
-void q_sort(my_str* arr, size_t low, size_t high, int (*comp)(void* lhs, void* rhs));
+void q_sort(my_str* arr, size_t low, size_t high, int (*comp)(const void* lhs, const void* rhs));
 
 /**
  * @brief 
@@ -52,7 +61,7 @@ void q_sort(my_str* arr, size_t low, size_t high, int (*comp)(void* lhs, void* r
  * @param comp 
  * @return unsigned 
  */
-size_t partition(my_str* arr, size_t low, size_t high, int (*comp)(void* lhs, void* rhs));
+size_t partition(my_str* arr, size_t low, size_t high, int (*comp)(const void* lhs, const void* rhs));
 
 /**
  * @brief 

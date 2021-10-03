@@ -5,6 +5,8 @@
 
 #include <assert.h>
 #include <string.h>
+#include <stdbool.h>
+#include <stdio.h>
 
 #include <errno.h>
 #include <sys/types.h>
@@ -12,23 +14,26 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include "m_qsort.hh"
+#include "err_proc.hh"
 
-struct my_str { /* renamed  my_str --> naive_str */ 
-    char* begin;
-    size_t size;
+auto print = [](const int& n) { std::cout << n << std::endl; };
 
-};
+const int START_SIZE = 512;
 
+/**
+ * @brief 
+ */
 enum ALLOCA_PARAMS {
-    START_SIZE = 512,
-    DELTA = 100,
+    DELTA = 50,
     
     FLAG_LESS = 0,
     FLAG_MORE = 1
 };
 
-
-
+/**
+ * @brief 
+ */
 struct TextHandler {
     char* text_buffer = nullptr;
     ssize_t byte_size = 0;
@@ -38,35 +43,68 @@ struct TextHandler {
 };
 
 
-inline int ErrProcess(char *str_err)
-{
-    perror("Error occured : ");
-    perror(str_err);
-    return errno;
-}
 
-int buf_load(TextHandler* txt_handler, const char* pathname);
-int my_str_arr_construct(TextHandler* txt_handler);
+/**
+ * @brief 
+ * 
+ * @param txt_handler 
+ * @param pathname 
+ * @return int 
+ */
+int buf_load(TextHandler* txt_handler, const char* pathname, ErrProc* err_handler);
 
+/**
+ * @brief 
+ * 
+ * @param txt_handler 
+ * @return int 
+ */
+int my_str_arr_construct(TextHandler* txt_handler, ErrProc* err_handler);
+
+/**
+ * @brief 
+ * 
+ * @param txt_handler 
+ */
+void sort(TextHandler* txt_handler);
+
+/**
+ * @brief 
+ * 
+ * @param str_array 
+ * @param str_arr_size 
+ * @param flag 
+ */
+void str_array_realloc(my_str* str_array, size_t* str_arr_size, enum ALLOCA_PARAMS flag);
+
+/**
+ * @brief Get the sorted txt object
+ * 
+ * @param txt_handler 
+ * @param pathname 
+ */
+int get_sorted_txt(const char* pathname, TextHandler* txt_handler, ErrProc* err_handler);
+
+/**
+ * @brief 
+ * 
+ * @param txt_handler 
+ */
+void destructor(TextHandler* txt_handler);
+
+/**
+ * @brief 
+ * 
+ * @param size 
+ * @param capacity 
+ * @param flag 
+ * @return true 
+ * @return false 
+ */
 inline bool is_need_allocate(size_t size, size_t capacity, enum ALLOCA_PARAMS flag) {
-    if (flag)
+    if (!flag)    // FLAG_LESS
         return (size != capacity);      /* if size != capacity => return false => allocate is need */
-    return (capacity - size) < DELTA;
+    return !((capacity - size) > DELTA);
 }
-
-void str_array_realloc(my_str* str_array, size_t* str_arr_size, enum ALLOCA_PARAMS flag) {
-
-    assert(str_array);
-    assert(str_arr_size);
-
-    if (flag)
-        *str_arr_size <<= 1; 
-
-    my_str* new_str_arr = (my_str*) realloc(str_array, sizeof(my_str) * (*str_arr_size));
-    assert(new_str_arr);
-
-    str_array = new_str_arr;
-}
-
 #endif /* TEXT_SORTION */
 
