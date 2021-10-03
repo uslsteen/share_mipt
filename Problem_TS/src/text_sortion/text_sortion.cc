@@ -61,24 +61,13 @@ int my_str_arr_construct(TextHandler* txt_handler, ErrProc* err_handler) {
 
         if (*cur_symb == '\n') {
 
-            txt_handler->str_array[i].begin = start;
-            txt_handler->str_array[i++].size = cur_symb - start;   
-
+            my_str_push(txt_handler->str_array, &i, start, cur_symb - start, &txt_handler->str_arr_size, &capacity, FLAG_MORE);
+            
             prev_symb = *(cur_symb - 1);
             start = cur_symb + 1;
         }
-
-        if (is_need_allocate(i, capacity, FLAG_MORE))   
-            str_array_realloc(txt_handler->str_array, &capacity, FLAG_MORE); 
     }
-    
-    txt_handler->str_array[i].begin = start;
-    txt_handler->str_array[i++].size = cur_symb - start;
-
-    txt_handler->str_arr_size = i;
-
-    if (is_need_allocate(i, capacity, FLAG_LESS))
-        str_array_realloc(txt_handler->str_array, &txt_handler->str_arr_size, FLAG_LESS);
+    my_str_push(txt_handler->str_array, &i, start, cur_symb - start, &txt_handler->str_arr_size, &capacity, FLAG_LESS);
 }
 
 

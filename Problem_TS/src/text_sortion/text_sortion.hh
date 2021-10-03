@@ -16,20 +16,9 @@
 
 #include "m_qsort.hh"
 #include "err_proc.hh"
+#include "my_str.hh"
 
 auto print = [](const int& n) { std::cout << n << std::endl; };
-
-const int START_SIZE = 512;
-
-/**
- * @brief 
- */
-enum ALLOCA_PARAMS {
-    DELTA = 50,
-    
-    FLAG_LESS = 0,
-    FLAG_MORE = 1
-};
 
 /**
  * @brief 
@@ -41,8 +30,6 @@ struct TextHandler {
     my_str* str_array = nullptr;
     size_t str_arr_size = 0;
 };
-
-
 
 /**
  * @brief 
@@ -69,15 +56,6 @@ int my_str_arr_construct(TextHandler* txt_handler, ErrProc* err_handler);
 void sort(TextHandler* txt_handler);
 
 /**
- * @brief 
- * 
- * @param str_array 
- * @param str_arr_size 
- * @param flag 
- */
-void str_array_realloc(my_str* str_array, size_t* str_arr_size, enum ALLOCA_PARAMS flag);
-
-/**
  * @brief Get the sorted txt object
  * 
  * @param txt_handler 
@@ -92,19 +70,5 @@ int get_sorted_txt(const char* pathname, TextHandler* txt_handler, ErrProc* err_
  */
 void destructor(TextHandler* txt_handler);
 
-/**
- * @brief 
- * 
- * @param size 
- * @param capacity 
- * @param flag 
- * @return true 
- * @return false 
- */
-inline bool is_need_allocate(size_t size, size_t capacity, enum ALLOCA_PARAMS flag) {
-    if (!flag)    // FLAG_LESS
-        return (size != capacity);      /* if size != capacity => return false => allocate is need */
-    return !((capacity - size) > DELTA);
-}
 #endif /* TEXT_SORTION */
 

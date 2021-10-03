@@ -8,11 +8,7 @@
 #include <assert.h>
 #include <string.h>
 
-
-struct my_str { /* renamed  my_str --> naive_str */ 
-    char* begin;
-    size_t size;
-};
+#include "my_str.hh"
 
 typedef int (*comp)(const void* lhs, const void* rhs);
 
