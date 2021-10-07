@@ -24,7 +24,7 @@ const size_t START_SIZE = 512;
  * @brief 
  * 
  */
-struct my_str { /* renamed  my_str --> naive_str */ 
+struct my_str { 
     char* begin;
     size_t size;
 };
@@ -32,19 +32,13 @@ struct my_str { /* renamed  my_str --> naive_str */
 /**
  * @brief 
  * 
+ * @param arr 
+ * @param size 
+ * @param cur_str 
+ * @param capacity 
+ * @param flag 
  */
-struct my_str_arr {
-    my_str* str;
-    size_t size;
-    size_t capacity;
-};
-
-void str_arr_constr(my_str* str_arr, size_t* capacity);
-
-
-//void my_str_push(my_str_arr* arr, size_t* pos, char* beg, size_t str_size, ALLOCA_PARAMS flag);
-
-void my_str_push(my_str* arr, size_t* pos, char* beg, size_t str_size, size_t* size, size_t* capacity, ALLOCA_PARAMS flag);
+void my_str_push(my_str* arr, size_t* size, my_str* cur_str, size_t* capacity, ALLOCA_PARAMS flag);
 
 /**
  * @brief 

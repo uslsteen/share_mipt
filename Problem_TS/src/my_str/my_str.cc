@@ -1,39 +1,30 @@
 #include "my_str.hh"
 
 
-void my_str_push(my_str* arr, size_t* pos, char* beg, size_t str_size, size_t* size, size_t* capacity, ALLOCA_PARAMS flag) {
+void my_str_push(my_str* arr, size_t* size, my_str* cur_str, size_t* capacity, ALLOCA_PARAMS flag) {
 
     assert(arr);
-    assert(beg);
-    assert(pos);
-    assert(size);
+    assert(cur_str);
     assert(capacity);
     
-    arr[*pos].begin = beg;
-    arr[*pos].size = str_size;
-    (*pos)++;
-    
+    arr[*size].begin = cur_str->begin;
+    arr[*size].size = cur_str->size;
+
+    (*size)++;
+
     if (flag == FLAG_MORE) {
 
-        if (is_need_allocate(*pos, *capacity, FLAG_MORE))   
-            str_arr_realloc(arr, capacity, FLAG_MORE);    
+        if (is_need_allocate(*size, *capacity, FLAG_MORE))   
+            str_arr_realloc(arr, capacity, FLAG_MORE);
+    
     }
     else if (flag == FLAG_LESS) {
-        
-        *size = *pos;
-
-        if (is_need_allocate(*pos, *capacity, FLAG_LESS))
+                
+        if (is_need_allocate(*size, *capacity, FLAG_LESS))
             str_arr_realloc(arr , size, FLAG_LESS);
     }
 }
 
-/*
-void str_arr_constr(my_str* str_arr, size_t* capacity) {
-
-    *capacity = START_SIZE; 
-    str_arr = (my_str*)calloc(START_SIZE, sizeof(str_arr[0]));
-    assert(str_arr);
-}*/
 
 void str_arr_realloc(my_str* arr, size_t* size, enum ALLOCA_PARAMS flag) {
 
@@ -48,4 +39,3 @@ void str_arr_realloc(my_str* arr, size_t* size, enum ALLOCA_PARAMS flag) {
 
     arr = new_arr;
 }
-
