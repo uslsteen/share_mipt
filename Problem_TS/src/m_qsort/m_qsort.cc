@@ -38,9 +38,25 @@ int backward_compare(const void* lhs, const void* rhs) {
     char* lhs_end = ((my_str*)lhs)->begin + ((my_str*)lhs)->size - 1;
     char* rhs_end = ((my_str*)rhs)->begin + ((my_str*)rhs)->size - 1;
 
+    char* lhs_beg = ((my_str*)lhs)->begin;
+    char* rhs_beg = ((my_str*)rhs)->begin;
+
     while (true) {
         /* not implemented yet */
+        while(!isalpha(*lhs_end) && lhs_end != lhs_beg)
+            --lhs_end;
+
+        while(!isalpha(*rhs_end) && rhs_end != rhs_beg)
+            --rhs_end;
+
+        if (toupper(*lhs_end) != toupper(*rhs_end) || lhs_end == lhs_beg || rhs_end == rhs_beg)
+			break;
+
+        --lhs_end;
+        --rhs_end;
     }
+
+    return (toupper(*lhs_end) - toupper(*rhs_end));
 }
 
 void q_sort(my_str* arr, size_t low, size_t high, int (*comp)(const void* lhs, const void* rhs)) {
