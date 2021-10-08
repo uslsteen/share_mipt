@@ -39,7 +39,7 @@ int buf_load(TextHandler* txt_handler, const char* pathname, ErrProc* err_handle
 }
 
 
-int my_str_arr_construct(TextHandler* txt_handler, ErrProc* err_handler) {
+void my_str_arr_construct(TextHandler* txt_handler, ErrProc* err_handler) {
 
     assert(txt_handler);
     assert(txt_handler->text_buffer);
@@ -93,7 +93,7 @@ void str_array_realloc(my_str* str_array, size_t* str_arr_size, enum ALLOCA_PARA
     str_array = new_str_arr;
 }
 
-int get_sorted_txt(const char* pathname, TextHandler* txt_handler, ErrProc* err_handler) {
+void get_sorted_txt(const char* pathname, TextHandler* txt_handler, ErrProc* err_handler) {
 
 	assert(pathname);
     assert(txt_handler);

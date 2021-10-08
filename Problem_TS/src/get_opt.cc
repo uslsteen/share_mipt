@@ -35,22 +35,25 @@ int my_get_opt(char** argv, TextHandler* m_txt_hndler) {
     assert(argv);
     assert(m_txt_hndler);
 
-    if (*argv[3] == 'c') {
+    char sort_type = *argv[3];
+    char mode = *argv[4];
 
-        if (*argv[4] == 'b')
+    if (sort_type == 'c') {
+
+        if (mode == 'b')
             qsort(m_txt_hndler->str_array, m_txt_hndler->str_arr_size, sizeof(my_str), backward_compare);
 
-        else if (*argv[4] = 'f')
+        else if (mode = 'f')
             qsort(m_txt_hndler->str_array, m_txt_hndler->str_arr_size, sizeof(my_str), forward_compare);
         
         else return print_usage(argv[0]);
     }
-    else if (*argv[3] == 's') {
+    else if (sort_type == 's') {
 
-        if (*argv[4] == 'b')
+        if (mode == 'b')
             sort(m_txt_hndler, backward_compare);
 
-        else if (*argv[4] = 'f')
+        else if (mode = 'f')
             sort(m_txt_hndler, forward_compare);
         
         else print_usage(argv[0]);

@@ -16,7 +16,7 @@ enum ERR_TYPE {
 };
 
 struct ErrProc {
-    char* err_msg;
+    const char* err_msg;
     ERR_TYPE type;
 };
 

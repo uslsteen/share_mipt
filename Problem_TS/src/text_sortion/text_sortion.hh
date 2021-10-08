@@ -46,7 +46,7 @@ int buf_load(TextHandler* txt_handler, const char* pathname, ErrProc* err_handle
  * @param txt_handler 
  * @return int 
  */
-int my_str_arr_construct(TextHandler* txt_handler, ErrProc* err_handler);
+void my_str_arr_construct(TextHandler* txt_handler, ErrProc* err_handler);
 
 /**
  * @brief 
@@ -61,7 +61,7 @@ void sort(TextHandler* txt_handler, int (*comp)(const void* lhs, const void* rhs
  * @param txt_handler 
  * @param pathname 
  */
-int get_sorted_txt(const char* pathname, TextHandler* txt_handler, ErrProc* err_handler);
+void get_sorted_txt(const char* pathname, TextHandler* txt_handler, ErrProc* err_handler);
 
 /**
  * @brief 
