@@ -7,7 +7,8 @@ project(Problem_TS VERSION 1.0)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(SRC src/main.cc 
+set(SRC src/main.cc
+        src/get_opt.cc
         src/text_sortion/text_sortion.cc
         src/m_qsort/m_qsort.cc
         src/err_proc/err_proc.cc
