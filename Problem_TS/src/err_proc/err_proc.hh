@@ -8,7 +8,8 @@ struct TextHandler;
 
 enum ERR_TYPE {
 
-    NONE = 1,
+    ERR_EXIT = -1,
+    NONE,
     FOPEN_NEG,
     FREAD_NEG, 
     FSEEK_NEG,

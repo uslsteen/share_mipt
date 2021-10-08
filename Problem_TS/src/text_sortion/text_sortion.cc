@@ -49,35 +49,34 @@ int my_str_arr_construct(TextHandler* txt_handler, ErrProc* err_handler) {
     assert(txt_handler->str_array);
 
     size_t i = 0;
-    char prev_symb = 0;
 
     char *start = txt_handler->text_buffer;
     char *cur_symb = (char*)memchr(start, '\n', txt_handler->byte_size);
-
-    if (cur_symb != start)
-        prev_symb = *(cur_symb - 1);
 
     for (; *cur_symb != '\0'; ++cur_symb) {
 
         if (*cur_symb == '\n') {
 
-            my_str_push(txt_handler->str_array, &i, start, cur_symb - start, &txt_handler->str_arr_size, &capacity, FLAG_MORE);
-            
-            prev_symb = *(cur_symb - 1);
+            my_str cur_str{start, (size_t)(cur_symb - start)};
+            my_str_push(txt_handler->str_array, &i, &cur_str, &capacity, FLAG_MORE);
+
             start = cur_symb + 1;
         }
     }
-    my_str_push(txt_handler->str_array, &i, start, cur_symb - start, &txt_handler->str_arr_size, &capacity, FLAG_LESS);
+
+    my_str cur_str{start, (size_t)(cur_symb - start)};
+    my_str_push(txt_handler->str_array, &i, &cur_str, &capacity, FLAG_LESS);
+
+    txt_handler->str_arr_size = i;
 }
 
-
-void sort(TextHandler* txt_handler) {
+void sort(TextHandler* txt_handler, int (*comp)(const void* lhs, const void* rhs)) {
 
     assert(txt_handler);
     assert(txt_handler->str_array);
 
     size_t low = 0, high = txt_handler->str_arr_size - 1;
-    q_sort(txt_handler->str_array, low, high, forward_compare);
+    q_sort(txt_handler->str_array, low, high, comp);
 }
 
 void str_array_realloc(my_str* str_array, size_t* str_arr_size, enum ALLOCA_PARAMS flag) {

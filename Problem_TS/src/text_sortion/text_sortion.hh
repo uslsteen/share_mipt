@@ -53,7 +53,7 @@ int my_str_arr_construct(TextHandler* txt_handler, ErrProc* err_handler);
  * 
  * @param txt_handler 
  */
-void sort(TextHandler* txt_handler);
+void sort(TextHandler* txt_handler, int (*comp)(const void* lhs, const void* rhs));
 
 /**
  * @brief Get the sorted txt object
