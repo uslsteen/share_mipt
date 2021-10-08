@@ -11,8 +11,8 @@
  */
 int print_usage(char* pathname) {
     printf("USAGE: %s input output algorithm sort_mode\n", pathname);
-    printf("input  - input stream\n"
-           "output - output stream\n"
+    printf("input  -<path/to/input stream>\n"
+           "output - <path/to/output_stream>\n"
            "\nalgorithm:\n"
            "    custom   - m_qsort realisation\n"
            "    standart - standart qsort\n"

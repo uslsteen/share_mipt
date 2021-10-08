@@ -29,7 +29,10 @@ int main(int argc, char** argv) {
     }
 
     if (my_get_opt(argv, &m_txt_hndler) == ERR_EXIT)
+    {
+        destructor(&m_txt_hndler);
         return ERR_EXIT;
+    }
     
     get_sorted_txt(argv[2], &m_txt_hndler, &m_err_hndler);
 

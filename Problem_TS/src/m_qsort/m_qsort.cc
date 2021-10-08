@@ -42,14 +42,15 @@ int backward_compare(const void* lhs, const void* rhs) {
     char* rhs_beg = ((my_str*)rhs)->begin;
 
     while (true) {
-        /* not implemented yet */
-        while(!isalpha(*lhs_end) && lhs_end != lhs_beg)
+
+        while(!isalpha(*lhs_end) && lhs_end != lhs_beg && !(is_end_line(*lhs_end)))
             --lhs_end;
 
-        while(!isalpha(*rhs_end) && rhs_end != rhs_beg)
+        while(!isalpha(*rhs_end) && rhs_end != rhs_beg && !(is_end_line(*rhs_end)))
             --rhs_end;
 
-        if (toupper(*lhs_end) != toupper(*rhs_end) || lhs_end == lhs_beg || rhs_end == rhs_beg)
+        if (toupper(*lhs_end) != toupper(*rhs_end) || lhs_end == lhs_beg || rhs_end == rhs_beg
+                                                   || ((is_end_line(*lhs_end) || is_end_line(*rhs_end))))
 			break;
 
         --lhs_end;
@@ -58,6 +59,8 @@ int backward_compare(const void* lhs, const void* rhs) {
 
     return (toupper(*lhs_end) - toupper(*rhs_end));
 }
+
+
 
 void q_sort(my_str* arr, size_t low, size_t high, int (*comp)(const void* lhs, const void* rhs)) {
 
