@@ -20,6 +20,12 @@ struct ErrProc {
     ERR_TYPE type;
 };
 
+/**
+ * @brief 
+ * 
+ * @param err_proc 
+ * @param txt_handler 
+ */
 void err_proc(ErrProc* err_proc, TextHandler* txt_handler);
 
 

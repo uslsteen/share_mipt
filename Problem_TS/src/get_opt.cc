@@ -3,6 +3,12 @@
 #include "text_sortion.hh"
 #include "m_qsort.hh"
 
+/**
+ * @brief 
+ * 
+ * @param pathname 
+ * @return int 
+ */
 int print_usage(char* pathname) {
     printf("USAGE: %s input output algorithm sort_mode\n", pathname);
     printf("input  - input stream\n"
@@ -17,6 +23,13 @@ int print_usage(char* pathname) {
     return ERR_EXIT;
 }
 
+/**
+ * @brief 
+ * 
+ * @param argv 
+ * @param m_txt_hndler 
+ * @return int 
+ */
 int my_get_opt(char** argv, TextHandler* m_txt_hndler) {
 
     assert(argv);
@@ -43,6 +56,8 @@ int my_get_opt(char** argv, TextHandler* m_txt_hndler) {
         else print_usage(argv[0]);
     }
     else print_usage(argv[0]);
+
+    return 0;
 }
 
 
