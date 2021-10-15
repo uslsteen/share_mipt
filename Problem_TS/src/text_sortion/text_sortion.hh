@@ -64,11 +64,27 @@ void sort(TextHandler* txt_handler, int (*comp)(const void* lhs, const void* rhs
 void get_sorted_txt(const char* pathname, TextHandler* txt_handler, ErrProc* err_handler);
 
 /**
+ * @brief Get the orig txt object
+ * 
+ */
+void get_orig_txt(TextHandler* txt_handler, ErrProc* err_handler);
+
+/**
  * @brief Get the str num object
  * 
  * @param txt_handler 
  */
 void get_str_num(TextHandler* txt_handler);
+
+/**
+ * @brief 
+ * 
+ * @param txt_handler 
+ * @param err_handler 
+ * @param argv 
+ * @return int 
+ */
+int constructor(TextHandler* txt_handler, ErrProc* err_handler, char** argv);
 
 /**
  * @brief 

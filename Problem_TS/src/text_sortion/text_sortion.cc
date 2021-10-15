@@ -34,6 +34,12 @@ int buf_load(TextHandler* txt_handler, const char* pathname, ErrProc* err_handle
         fclose(file);
     }
 
+    if (res_of_read != bytes_offset) {
+        err_handler->type = FREAD_MISS;
+        err_handler->err_msg = "fread(...) ret less val than num items of data\n";
+        fclose(file);
+    }
+
     txt_handler->byte_size = res_of_read;
     return 0;
 }
@@ -124,7 +130,7 @@ void get_sorted_txt(const char* pathname, TextHandler* txt_handler, ErrProc* err
 
 	for (size_t i = 0; i < num_of_str; i++) {
         char* beg = txt_handler->str_array[i].begin;
-        if (isspace(*beg))
+        if (*beg == '\n')
             continue;
 
         fprintf(file, "%.*s\n", (int)txt_handler->str_array[i].size, beg);
@@ -133,8 +139,51 @@ void get_sorted_txt(const char* pathname, TextHandler* txt_handler, ErrProc* err
 	fclose(file);
 }
 
+void get_orig_txt(TextHandler* txt_handler, ErrProc* err_handler) {
+
+    assert(txt_handler);
+    assert(err_handler);
+
+    FILE* file = fopen("orig.txt", "w+");
+
+    if (file == nullptr) {
+        err_handler->type = FOPEN_NEG;
+        err_handler->err_msg = "fopen(...) return NULL in get_orig_text(...)\n";
+    }
+
+    fputs(txt_handler->text_buffer, file);
+	fclose(file);
+}
+
+
+int constructor(TextHandler* txt_handler, ErrProc* err_handler, char** argv) {
+    
+    assert(txt_handler);
+    assert(err_handler);
+    assert(argv);
+    
+    buf_load(txt_handler, argv[1], err_handler);
+
+    if (err_handler->type != NONE) {
+        err_proc(err_handler, txt_handler);
+        destructor(txt_handler);
+        return ERR_EXIT;
+    }
+
+    my_str_arr_construct(txt_handler, err_handler);
+
+    if (err_handler->type != NONE) {
+        err_proc(err_handler, txt_handler);
+        destructor(txt_handler);
+        return ERR_EXIT;
+    }
+
+    return 0;
+}
 
 void destructor(TextHandler* txt_handler) {
+
+    assert(txt_handler);
 
     free(txt_handler->text_buffer);
     txt_handler->text_buffer = nullptr;

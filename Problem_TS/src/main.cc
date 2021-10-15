@@ -12,18 +12,8 @@ int main(int argc, char** argv) {
     ErrProc m_err_hndler = {};
     m_err_hndler.type = NONE;
 
-    buf_load(&m_txt_hndler, argv[1], &m_err_hndler);
-
-    if (m_err_hndler.type != NONE) {
-        err_proc(&m_err_hndler, &m_txt_hndler);
-        destructor(&m_txt_hndler);
-        return ERR_EXIT;
-    }
-
-    my_str_arr_construct(&m_txt_hndler, &m_err_hndler);
-
-    if (m_err_hndler.type != NONE) {
-        err_proc(&m_err_hndler, &m_txt_hndler);
+    if (constructor(&m_txt_hndler, &m_err_hndler, argv) == ERR_EXIT)
+    {
         destructor(&m_txt_hndler);
         return ERR_EXIT;
     }
@@ -33,8 +23,9 @@ int main(int argc, char** argv) {
         destructor(&m_txt_hndler);
         return ERR_EXIT;
     }
- 
-    get_sorted_txt(argv[4], &m_txt_hndler, &m_err_hndler);
+
+    get_sorted_txt(argv[2], &m_txt_hndler, &m_err_hndler);
+    get_orig_txt(&m_txt_hndler, &m_err_hndler);
 
     if (m_err_hndler.type != NONE) {
         err_proc(&m_err_hndler, &m_txt_hndler);
