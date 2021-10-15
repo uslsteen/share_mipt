@@ -38,14 +38,30 @@ int buf_load(TextHandler* txt_handler, const char* pathname, ErrProc* err_handle
     return 0;
 }
 
+void get_str_num(TextHandler* txt_handler) {
+
+    assert(txt_handler);
+    assert(txt_handler->text_buffer);
+
+    size_t cur_size = txt_handler->byte_size;
+    char* cur_str = (char*)memchr(txt_handler->text_buffer, '\n', cur_size);
+
+    while (cur_str != NULL) {
+        ++txt_handler->str_arr_size;
+        cur_str = (char*)memchr(cur_str + 1, '\n', cur_size - (cur_str - txt_handler->text_buffer) - 1);
+    }
+
+    ++txt_handler->str_arr_size;
+}
 
 void my_str_arr_construct(TextHandler* txt_handler, ErrProc* err_handler) {
 
     assert(txt_handler);
     assert(txt_handler->text_buffer);
 
-    size_t capacity = START_SIZE; 
-    txt_handler->str_array = (my_str*)calloc(START_SIZE, sizeof(my_str));
+    get_str_num(txt_handler);
+
+    txt_handler->str_array = (my_str*)calloc(txt_handler->str_arr_size, sizeof(my_str));
     assert(txt_handler->str_array);
 
     size_t i = 0;
@@ -57,17 +73,15 @@ void my_str_arr_construct(TextHandler* txt_handler, ErrProc* err_handler) {
 
         if (*cur_symb == '\n') {
 
-            my_str cur_str{start, (size_t)(cur_symb - start)};
-            my_str_push(txt_handler->str_array, &i, &cur_str, &capacity, FLAG_MORE);
+            my_str cur_str = {start, (size_t)(cur_symb - start)};            
+            my_str_push(txt_handler->str_array, &i, &cur_str);
 
             start = cur_symb + 1;
         }
     }
 
-    my_str cur_str{start, (size_t)(cur_symb - start)};
-    my_str_push(txt_handler->str_array, &i, &cur_str, &capacity, FLAG_LESS);
-
-    txt_handler->str_arr_size = i;
+    my_str cur_str = {start, (size_t)(cur_symb - start)};
+    my_str_push(txt_handler->str_array, &i, &cur_str);
 }
 
 void sort(TextHandler* txt_handler, int (*comp)(const void* lhs, const void* rhs)) {
@@ -121,6 +135,10 @@ void get_sorted_txt(const char* pathname, TextHandler* txt_handler, ErrProc* err
 
 
 void destructor(TextHandler* txt_handler) {
+
     free(txt_handler->text_buffer);
+    txt_handler->text_buffer = nullptr;
+
     free(txt_handler->str_array);
+    txt_handler->str_array = nullptr;
 }

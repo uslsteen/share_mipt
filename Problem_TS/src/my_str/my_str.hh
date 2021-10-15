@@ -38,7 +38,7 @@ struct my_str {
  * @param capacity 
  * @param flag 
  */
-void my_str_push(my_str* arr, size_t* size, my_str* cur_str, size_t* capacity, ALLOCA_PARAMS flag);
+void my_str_push(my_str* arr, size_t* size, my_str* cur_str);
 
 /**
  * @brief 

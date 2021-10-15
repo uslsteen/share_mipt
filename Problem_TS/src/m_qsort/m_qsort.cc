@@ -61,7 +61,6 @@ int backward_compare(const void* lhs, const void* rhs) {
 }
 
 
-
 void q_sort(my_str* arr, size_t low, size_t high, int (*comp)(const void* lhs, const void* rhs)) {
 
     assert(arr);
@@ -76,23 +75,23 @@ void q_sort(my_str* arr, size_t low, size_t high, int (*comp)(const void* lhs, c
     q_sort(arr, pos + 1, high, comp);
 }
 
+
 size_t partition(my_str* arr, size_t low, size_t high, int (*comp)(const void* lhs, const void* rhs)) {
-
-    assert(arr);
-    size_t pivot = low, beg = low, end = high;
-
-    while (beg < end) {
-        while (comp(arr + beg, arr + pivot) <= 0 && (beg <= high))
-            ++beg;
-        while (comp(arr + end, arr + pivot) > 0 && (end >= low))
-            --end;
-
-        if (beg < end)
-            swap(arr + beg, arr + end);
+    
+    size_t pivot = high;
+    size_t prev_beg = low - 1;  
+ 
+    for (size_t beg = low; beg <= high- 1; ++beg)
+    {
+        if (comp(arr + beg, arr + pivot) < 0)
+        {
+            ++prev_beg;
+            swap(arr + prev_beg, arr + beg);
+        }
     }
 
-    swap(arr + end, arr + pivot);
-    return end;
+    swap(arr + prev_beg + 1, arr + high);
+    return (prev_beg + 1);
 }
 
 void swap(my_str* lhs, my_str* rhs) {

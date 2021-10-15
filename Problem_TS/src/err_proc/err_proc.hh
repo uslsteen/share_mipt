@@ -9,10 +9,10 @@ struct TextHandler;
 enum ERR_TYPE {
 
     ERR_EXIT = -1,
-    NONE,
-    FOPEN_NEG,
-    FREAD_NEG, 
-    FSEEK_NEG,
+    NONE = 0,
+    FOPEN_NEG = -2, /* make it neg */
+    FREAD_NEG = -3, 
+    FSEEK_NEG = -4,
 };
 
 struct ErrProc {
