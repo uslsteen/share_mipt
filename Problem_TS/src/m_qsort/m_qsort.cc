@@ -81,7 +81,7 @@ size_t partition(my_str* arr, size_t low, size_t high, int (*comp)(const void* l
     size_t pivot = high;
     size_t prev_beg = low - 1;  
  
-    for (size_t beg = low; beg <= high- 1; ++beg)
+    for (size_t beg = low; beg <= high - 1; ++beg)
     {
         if (comp(arr + beg, arr + pivot) < 0)
         {

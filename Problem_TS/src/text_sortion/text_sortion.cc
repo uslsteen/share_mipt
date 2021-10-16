@@ -99,20 +99,6 @@ void sort(TextHandler* txt_handler, int (*comp)(const void* lhs, const void* rhs
     q_sort(txt_handler->str_array, low, high, comp);
 }
 
-void str_array_realloc(my_str* str_array, size_t* str_arr_size, enum ALLOCA_PARAMS flag) {
-
-    assert(str_array);
-    assert(str_arr_size);
-
-    if (flag)
-        *str_arr_size <<= 1; 
-
-    my_str* new_str_arr = (my_str*) realloc(str_array, sizeof(my_str) * (*str_arr_size));
-    assert(new_str_arr);
-
-    str_array = new_str_arr;
-}
-
 void get_sorted_txt(const char* pathname, TextHandler* txt_handler, ErrProc* err_handler) {
 
 	assert(pathname);
